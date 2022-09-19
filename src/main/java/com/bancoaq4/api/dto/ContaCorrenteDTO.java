@@ -1,6 +1,7 @@
 package com.bancoaq4.api.dto;
 
 import com.bancoaq4.api.models.Transacao;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import java.util.List;
@@ -15,5 +16,5 @@ public class ContaCorrenteDTO {
     private String nomeCliente;
     private double saldo;
     private boolean status;
-    private List<Transacao> transcoes;
+    private List<TransacaoDTO> transcoes;
 }

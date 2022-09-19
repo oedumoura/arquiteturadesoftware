@@ -18,6 +18,7 @@ public class ContaCorrenteService {
     ContaCorrenteRepository contaCorrenteRepository;
     @Autowired
     ClienteService clienteService;
+    TransacaoService transacaoService = new TransacaoService();
 
     public ContaCorrenteDTO findById(long id){
         ContaCorrente contaCorrente = this.contaCorrenteRepository.findById(id).get();
@@ -56,7 +57,10 @@ public class ContaCorrenteService {
         contaCorrenteDTO.setNomeCliente(contaCorrente.getCliente().getNome());
         contaCorrenteDTO.setStatus(contaCorrente.isStatus());
         contaCorrenteDTO.setSaldo(contaCorrente.getSaldo());
-        contaCorrenteDTO.setTranscoes(contaCorrente.getTranscoes());
+        contaCorrenteDTO.setTranscoes(contaCorrente.getTranscoes() == null? null: contaCorrente.getTranscoes()
+        .stream()
+        .map(transacaoService::toTransacaoDTO)
+        .collect(Collectors.toList()));
         return contaCorrenteDTO;
     }
 }

@@ -4,7 +4,6 @@ import com.bancoaq4.api.dto.ClienteDTO;
 import com.bancoaq4.api.models.Cliente;
 import com.bancoaq4.api.repositories.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

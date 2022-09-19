@@ -45,6 +45,9 @@ public class ContaCorrente implements Serializable {
         this.saldo = saldo - valor;
     }
 
+    public void AddTransacao(Transacao transacao){
+        transcoes.add(transacao);
+    }
 
 
 }
