@@ -32,12 +32,6 @@ public class ClienteController {
 
     @PostMapping
     public ResponseEntity<ClienteDTO> create(@RequestBody Cliente cliente){
-        ClienteDTO obj = this.clienteService.create(cliente);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(obj.getId())
-                .toUri();
-
-        return ResponseEntity.created(uri).body(obj);
+        return new ResponseEntity(this.clienteService.create(cliente), HttpStatus.CREATED);
     }
 }

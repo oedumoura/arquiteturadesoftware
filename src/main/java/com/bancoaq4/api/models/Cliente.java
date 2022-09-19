@@ -17,4 +17,8 @@ public class Cliente implements Serializable {
     private String dataDeNascimento;
     @OneToMany
     private List<ContaCorrente> contaCorrentes;
+
+    public void addConta(ContaCorrente contaCorrente){
+        contaCorrentes.add(contaCorrente);
+    }
 }

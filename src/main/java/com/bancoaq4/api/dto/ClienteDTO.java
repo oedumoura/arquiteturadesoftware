@@ -1,6 +1,6 @@
 package com.bancoaq4.api.dto;
 
-import com.bancoaq4.api.models.ContaCorrente;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import java.util.List;
@@ -12,5 +12,7 @@ public class ClienteDTO {
     private String nome;
     private String cpf;
     private String dataDeNascimento;
-    private List<ContaCorrente> contaCorrentes;
+    @JsonIgnoreProperties("idCliente")
+    private List<ContaCorrenteDTO> contasCorrente;
+
 }

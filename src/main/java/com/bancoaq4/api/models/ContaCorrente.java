@@ -16,7 +16,10 @@ public class ContaCorrente implements Serializable {
     @GeneratedValue
     private long id;
     @Column(unique = true)
-    private int numeroConta;
+    private String numeroConta;
+    private String agencia;
+    @OneToOne
+    private Cliente cliente;
     private double saldo;
     private boolean status = true;
     @OneToMany
