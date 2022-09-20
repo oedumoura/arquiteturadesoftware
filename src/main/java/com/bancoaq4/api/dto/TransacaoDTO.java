@@ -6,10 +6,11 @@ import lombok.Data;
 @Data
 public class TransacaoDTO {
 
-    private long id;
+    private TipoTransacao tipoTransacao;
+    private long idTransacao;
     private long idConta;
     private String nomeConta;
     private String data;
     private double valor;
-    private TipoTransacao tipoTransacao;
+
 }

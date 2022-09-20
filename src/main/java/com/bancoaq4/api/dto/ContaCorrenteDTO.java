@@ -1,7 +1,5 @@
 package com.bancoaq4.api.dto;
 
-import com.bancoaq4.api.models.Transacao;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import java.util.List;

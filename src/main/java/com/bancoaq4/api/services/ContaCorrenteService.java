@@ -18,6 +18,7 @@ public class ContaCorrenteService {
     ContaCorrenteRepository contaCorrenteRepository;
     @Autowired
     ClienteService clienteService;
+    
     TransacaoService transacaoService = new TransacaoService();
 
     public ContaCorrenteDTO findById(long id){

@@ -2,7 +2,7 @@ package com.bancoaq4.api.models;
 
 public enum TipoTransacao {
 
-    SAQUE, DEPOSITO;
+    SAQUE, DEPOSITO, PAGAMENTO_BOLETO;
 
     public int id;
 

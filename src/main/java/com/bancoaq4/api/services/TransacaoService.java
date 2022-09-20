@@ -2,6 +2,7 @@ package com.bancoaq4.api.services;
 
 import com.bancoaq4.api.dto.TransacaoDTO;
 import com.bancoaq4.api.exceptions.ContaBloqueadaException;
+import com.bancoaq4.api.exceptions.SaldoInsuficienteException;
 import com.bancoaq4.api.models.ContaCorrente;
 import com.bancoaq4.api.models.TipoTransacao;
 import com.bancoaq4.api.models.Transacao;
@@ -56,9 +57,43 @@ public class TransacaoService {
         return toTransacaoDTO(transacao);
     }
 
+    public TransacaoDTO boleto(long idConta, double valor) throws ContaBloqueadaException, SaldoInsuficienteException {
+        ContaCorrente contaCorrente = contaCorrenteRepository.findById(idConta).get();
+        contaCorrente.subtraiSaldo(valor);
+        contaCorrenteRepository.save(contaCorrente);
+
+        Transacao transacao = new Transacao();
+        transacao.setContaCorrente(contaCorrente);
+        transacao.setValor(valor);
+        transacao.setTipoTransacao(TipoTransacao.PAGAMENTO_BOLETO);
+        transacao.setData(fmt.format(new Date()));
+
+        contaCorrente.AddTransacao(transacao);
+        transacaoRepository.save(transacao);
+
+        return toTransacaoDTO(transacao);
+    }
+
+    public TransacaoDTO saque(long idConta, double valor) throws ContaBloqueadaException, SaldoInsuficienteException {
+        ContaCorrente contaCorrente = contaCorrenteRepository.findById(idConta).get();
+        contaCorrente.subtraiSaldo(valor);
+        contaCorrenteRepository.save(contaCorrente);
+
+        Transacao transacao = new Transacao();
+        transacao.setContaCorrente(contaCorrente);
+        transacao.setValor(valor);
+        transacao.setTipoTransacao(TipoTransacao.SAQUE);
+        transacao.setData(fmt.format(new Date()));
+
+        contaCorrente.AddTransacao(transacao);
+        transacaoRepository.save(transacao);
+
+        return toTransacaoDTO(transacao);
+    }
+
     public TransacaoDTO toTransacaoDTO(Transacao obj) {
         TransacaoDTO transacaoDTO = new TransacaoDTO();
-        transacaoDTO.setId(obj.getId());
+        transacaoDTO.setIdTransacao(obj.getId());
         transacaoDTO.setData(obj.getData());
         transacaoDTO.setIdConta(obj.getContaCorrente().getId());
         transacaoDTO.setNomeConta(obj.getContaCorrente().getCliente().getNome());

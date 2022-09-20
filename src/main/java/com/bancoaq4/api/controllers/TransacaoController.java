@@ -2,6 +2,7 @@ package com.bancoaq4.api.controllers;
 
 import com.bancoaq4.api.dto.TransacaoDTO;
 import com.bancoaq4.api.exceptions.ContaBloqueadaException;
+import com.bancoaq4.api.exceptions.SaldoInsuficienteException;
 import com.bancoaq4.api.services.TransacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,12 @@ public class TransacaoController {
     @PostMapping(path = "/deposito")
     public ResponseEntity<TransacaoDTO> deposito(@RequestBody TransacaoDTO transacaoDTO) throws ContaBloqueadaException {
         TransacaoDTO transacao = this.transacaoService.deposito(transacaoDTO.getIdConta(), transacaoDTO.getValor());
+        return new ResponseEntity(transacao, HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/saque")
+    public ResponseEntity<TransacaoDTO> saque(@RequestBody TransacaoDTO transacaoDTO) throws ContaBloqueadaException, SaldoInsuficienteException {
+        TransacaoDTO transacao = this.transacaoService.saque(transacaoDTO.getIdConta(), transacaoDTO.getValor());
         return new ResponseEntity(transacao, HttpStatus.OK);
     }
 }
