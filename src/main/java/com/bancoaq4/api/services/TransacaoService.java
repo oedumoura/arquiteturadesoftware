@@ -59,13 +59,13 @@ public class TransacaoService {
 
     public TransacaoDTO boleto(long idConta, double valor) throws ContaBloqueadaException, SaldoInsuficienteException {
         ContaCorrente contaCorrente = contaCorrenteRepository.findById(idConta).get();
-        contaCorrente.subtraiSaldo(valor);
+        contaCorrente.pagarBoleto(valor);
         contaCorrenteRepository.save(contaCorrente);
 
         Transacao transacao = new Transacao();
         transacao.setContaCorrente(contaCorrente);
         transacao.setValor(valor);
-        transacao.setTipoTransacao(TipoTransacao.PAGAMENTO_BOLETO);
+        transacao.setTipoTransacao(TipoTransacao.BOLETO);
         transacao.setData(fmt.format(new Date()));
 
         contaCorrente.AddTransacao(transacao);

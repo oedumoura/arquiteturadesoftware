@@ -33,6 +33,14 @@ public class ContaCorrente implements Serializable {
         this.saldo = saldo + valor;
 
     }
+    public void pagarBoleto(double valor) throws ContaBloqueadaException {
+        if(!status) {
+            throw new ContaBloqueadaException();
+        }
+
+        this.saldo = saldo - valor;
+
+    }
 
     public void subtraiSaldo(double valor) throws SaldoInsuficienteException, ContaBloqueadaException{
         if(!status) {
