@@ -45,4 +45,14 @@ public class TransacaoController {
         TransacaoDTO transacao = this.transacaoService.boleto(transacaoDTO.getIdConta(), transacaoDTO.getValor());
         return new ResponseEntity(transacao, HttpStatus.OK);
     }
+
+    @PostMapping(path = "/transferencia")
+    public ResponseEntity<TransacaoDTO> transferencia(@RequestBody TransacaoDTO transacaoDTO) throws SaldoInsuficienteException, ContaBloqueadaException {
+        TransacaoDTO transacao = this.transacaoService.tranferencia(
+                        transacaoDTO.getIdConta(),
+                        transacaoDTO.getIdContaDestino(),
+                        transacaoDTO.getValor());
+        return new ResponseEntity(transacao, HttpStatus.OK);
+    }
+
 }

@@ -91,8 +91,38 @@ public class TransacaoService {
         return toTransacaoDTO(transacao);
     }
 
+    public TransacaoDTO tranferencia(long idConta, long idContaDestino, double valor) throws SaldoInsuficienteException, ContaBloqueadaException {
+        ContaCorrente contaOrigem = contaCorrenteRepository.findById(idConta).get();
+        contaOrigem.subtraiSaldo(valor);
+        contaCorrenteRepository.save(contaOrigem);
+
+        ContaCorrente contaDestino = contaCorrenteRepository.findById(idContaDestino).get();
+        contaDestino.somaSaldo(valor);
+        contaCorrenteRepository.save(contaDestino);
+
+
+        Transacao transacao = new Transacao();
+        transacao.setContaCorrente(contaOrigem);
+        transacao.setContaCorrenteDestino(contaDestino);
+        transacao.setValor(valor);
+        transacao.setTipoTransacao(TipoTransacao.TRANSAFERENCIA);
+        transacao.setData(fmt.format(new Date()));
+
+        contaOrigem.AddTransacao(transacao);
+        transacaoRepository.save(transacao);
+        return toTransacaoDTO(transacao);
+
+    }
+
     public TransacaoDTO toTransacaoDTO(Transacao obj) {
+
         TransacaoDTO transacaoDTO = new TransacaoDTO();
+
+        if(obj.getTipoTransacao().compareTo(TipoTransacao.TRANSAFERENCIA) == 0) {
+            transacaoDTO.setIdContaDestino(obj.getContaCorrenteDestino().getId());
+            transacaoDTO.setNomeContaDestino(obj.getContaCorrenteDestino().getCliente().getNome());
+        }
+
         transacaoDTO.setIdTransacao(obj.getId());
         transacaoDTO.setData(obj.getData());
         transacaoDTO.setIdConta(obj.getContaCorrente().getId());
@@ -100,5 +130,6 @@ public class TransacaoService {
         transacaoDTO.setTipoTransacao(obj.getTipoTransacao());
         transacaoDTO.setValor(obj.getValor());
         return transacaoDTO;
+
     }
 }

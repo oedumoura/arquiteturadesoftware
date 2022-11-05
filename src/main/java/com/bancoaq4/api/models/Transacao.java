@@ -15,6 +15,9 @@ public class Transacao implements Serializable {
     @ManyToOne
     @JoinColumn( name = "idContaCorrente")
     private ContaCorrente contaCorrente;
+    @ManyToOne
+    @JoinColumn(name = "idContaCorrenteDestino", nullable = true)
+    private ContaCorrente contaCorrenteDestino;
     private String data;
     private double valor;
     private TipoTransacao tipoTransacao;
