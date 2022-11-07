@@ -8,15 +8,17 @@ import com.bancoaq4.api.models.TipoTransacao;
 import com.bancoaq4.api.models.Transacao;
 import com.bancoaq4.api.repositories.ContaCorrenteRepository;
 import com.bancoaq4.api.repositories.TransacaoRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class TransacaoService {
 
@@ -24,6 +26,8 @@ public class TransacaoService {
     private TransacaoRepository transacaoRepository;
     @Autowired
     private ContaCorrenteRepository contaCorrenteRepository;
+    @Autowired
+    private Environment environment;
 
     private SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
@@ -92,6 +96,8 @@ public class TransacaoService {
     }
 
     public TransacaoDTO tranferencia(long idConta, long idContaDestino, double valor) throws SaldoInsuficienteException, ContaBloqueadaException {
+        log.info("BANK_SERVICE ::: RODANDO NA PORTA: " + environment.getProperty("local.server.port"));
+
         ContaCorrente contaOrigem = contaCorrenteRepository.findById(idConta).get();
         contaOrigem.subtraiSaldo(valor);
         contaCorrenteRepository.save(contaOrigem);
